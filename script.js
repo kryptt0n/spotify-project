@@ -40,10 +40,20 @@ const result = await fetch("https://accounts.spotify.com/api/token",
 };
 const displayGenres = async () => {
     const genres = await getGenre();
+    let counter = 0;
     genres.forEach(genre => 
     {
         let li = document.createElement('li');
-        li.innerHTML =`<li class='genre-item'>${genre}</li>`;
+        li.innerHTML =`
+        <li class='genre-item dropdown'>
+            <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9" type="button" id="dropdownMenuButton${counter}" data-bs-toggle="dropdown" aria-expanded="false">
+                ${genre}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${counter++}">
+            <li></li>
+            </ul>
+        </li>
+        `;
         $('#genres-list').append(li);
     });
 }
