@@ -1,5 +1,5 @@
-const clientId = `30691c2e47bf4fe4ad77188b788c3906`;
-const clientSecret = `39b59e348d5c4985b66e1242d5dc4f05`;
+const clientId = `e8c1d0e9976d47c99dd1dbdb27d22038`;
+const clientSecret = `b63cf10ea15543a182723cad0c07fee2`;
 
 const getGenre = async () => {
     const accessToken = await getToken();
@@ -28,12 +28,12 @@ const getToken = async () => {
     return accessToken;
 };
 
-function reset() {
+const reset = async () => {
     document.getElementById('genres-list').innerHTML = "";
     displayGenres(getGenre());
 }
 
-async function searchGenres() {
+const searchGenres = async () => {
     let keyword = document.getElementById('search-bar').value.toLowerCase();
     let genreList = await getGenre();
     let filteredGenres = [];
