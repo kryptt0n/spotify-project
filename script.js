@@ -100,10 +100,13 @@ const searchGenres = async () => {
     });
     if (!searchedGenres.length > 0){
         alert("No result found")
+        reset();
     }
+    else {
     searchedGenres.sort();
     document.getElementById('genres-list').innerHTML = "";
     displayGenres(searchedGenres.sort());
+    }
 };
 
 
