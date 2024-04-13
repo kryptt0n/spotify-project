@@ -150,11 +150,14 @@ window.onload = async () => {
     displayGenres(await getGenre());
 };
 
-document.getElementById('reset-btn').addEventListener('click', reset);
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('genre-btn')) {
-        handlePlaylistLazyLoading(event.target.id);
-    }
-});
 
-document.getElementById('search-btn').addEventListener('click', searchGenres);
+document.addEventListener('click', function(event) {
+    const targetElement = event.target;
+    if (targetElement.classList.contains('genre-btn')) {
+        handlePlaylistLazyLoading(targetElement.id);
+    } else if (targetElement.id == 'search-btn') {
+        searchGenres();
+    } else if (targetElement.id === 'reset-btn') {
+        reset();
+    } 
+});
