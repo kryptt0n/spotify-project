@@ -54,7 +54,7 @@ const getToken = async () => {
         throw error;
     }
 };
-const getPlaylist = async(genre) =>{
+const getPlaylist = async(genre) => {
     const accessToken = await getToken();
     const response = await fetch(`https://api.spotify.com/v1/search?q=${genre}&type=playlist`, {
         headers: {
@@ -116,7 +116,7 @@ const displayGenres = async (data) => {
             let li = document.createElement('li');
             li.innerHTML = `
             <li class='genre-item dropdown'>
-                <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9" type="button" id="dropdownMenuButton${index}" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9 genre-btn" type="button" id="dropdownMenuButton${index}" data-bs-toggle="dropdown" aria-expanded="false">
                     ${genre}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${index}"></ul>
@@ -125,13 +125,10 @@ const displayGenres = async (data) => {
         });
 };
 
-const handleLazyLoading = async () => {
-    const genresList = document.getElementById('genres-list');
-    const genres = genresList.querySelectorAll('.genre-item');
-
-    genres.forEach(async (genreElement) => {
-            const genreName = genreElement.querySelector('button').textContent.toLowerCase();
-            const playlistElement = genreElement.querySelector('ul');
+const handlePlaylistLazyLoading = async (id) =>{
+            const genreElement = document.getElementById(id)
+            const genreName = genreElement.textContent.toLowerCase();
+            const playlistElement = genreElement.nextElementSibling;
 
             if (!playlistElement.hasChildNodes()) {
 
@@ -145,7 +142,6 @@ const handleLazyLoading = async () => {
                         playlistElement.appendChild(listItem);
                     });
             }
-    });
 };
 
 window.onload = async () => {
@@ -153,6 +149,10 @@ window.onload = async () => {
 };
 
 document.getElementById('reset-btn').addEventListener('click', reset);
-window.addEventListener('click', handleLazyLoading);
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('genre-btn')) {
+        handlePlaylistLazyLoading(event.target.id);
+    }
+});
 
 document.getElementById('search-btn').addEventListener('click', searchGenres);
