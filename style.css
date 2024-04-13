@@ -64,3 +64,37 @@ transform: rotate(-45deg);
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.search-txt{
+        font-size:medium;
+        color: aliceblue;
+        text-decoration: none;
+       
+}
+.search
+    {   border: #29282B;
+        border-radius:1rem;
+        
+}
+.search-button{
+    padding: 5px 20px;
+    background-color :lightslategray;
+}
+#search-genre{
+    font-weight: 600;
+    padding: 5px ;
+    font-size: larger;
+    margin-right:-30px ;
+}
+
+#search-bar{
+    width: 30%;
+    padding-left: 20px;
+    background-color :grey;
+}
+
+.search-row{
+    display: flex;
+    margin-bottom: 50px;
+    gap: 2rem;
+}
