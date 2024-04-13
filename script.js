@@ -125,6 +125,38 @@ const displayGenres = async (data) => {
         });
 };
 
+const handleTracksLazyLoading = async(playlist_id) => {
+    const playlistElement = document.getElementById(playlist_id)
+    const trackElement = playlistElement.nextElementSibling;
+
+    playlist_id = playlist_id.split('playlistDropdown')[1]
+    const tracks = await getTracks(playlist_id);
+
+    $.each(tracks, (index, track) => {
+        const listItem = document.createElement('li');
+        console.log(track);
+        listItem.innerHTML = `<li> ${track.track.name} `;
+        trackElement.appendChild(listItem);
+    })
+
+}
+
+const getTracks = async (playlist_id) => {
+    const accessToken = await getToken();
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}`, {
+        headers: {
+            Authorization: 'Bearer ' + accessToken
+        }
+    });
+    if (!response.ok) {
+        alert(`Failed to fetch tracks Error Code:${response.status}`);
+    }
+    const data = await response.json();
+    return data.tracks.items;
+}
+
+
+
 const handlePlaylistLazyLoading = async (id) =>{
             const genreElement = document.getElementById(id)
             const genreName = genreElement.textContent.toLowerCase();
@@ -135,14 +167,16 @@ const handlePlaylistLazyLoading = async (id) =>{
                     const playlists = await getPlaylist(genreName);
                     const playlistNames = await getPlaylistName(playlists);
 
-
-                    playlistNames.forEach(name => {
+                    $.each(playlists, (index, playlist) => {
                         const listItem = document.createElement('li');
-                        listItem.innerHTML = `  <li>${name}
-                                                <ul></ul>
+                        listItem.innerHTML = `  <li class='genre-item dropend'>
+                                                    <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9 playlist-btn" type="button" id="playlistDropdown${playlist.id}" data-bs-toggle="dropdown" aria-expanded="true">
+                                                        ${playlist.name}
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="playlistDropdown${playlist.id}"></ul>
                                                 </li>`
                         playlistElement.appendChild(listItem);
-                    });
+                    })
             }
 };
 
@@ -159,5 +193,7 @@ document.addEventListener('click', function(event) {
         searchGenres();
     } else if (targetElement.id === 'reset-btn') {
         reset();
-    } 
+    } else if (targetElement.classList.contains('playlist-btn')) {
+        handleTracksLazyLoading(targetElement.id);
+    }
 });
