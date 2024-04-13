@@ -12,14 +12,30 @@
     <main class="container rounded">
         <h1 class="display-4 font-weight-bold text-white">Spotify Genres</h1>
         <div class="search-row">
-        <label for="search-bar" class="search-txt" id="search-genre">Search Genre: </label>
-        <input type="text" name="search-bar" id="search-bar" class="search search-txt">
-        <button type="button" id="search-btn" name="search-btn" class="font-weight-bold text-white search search-txt search-button">Search</button>
-        <button type="button" id="reset-btn" class="search search-txt search-button">Reset</button>
+            <label for="search-bar" class="search-txt" id="search-genre">Search Genre: </label>
+            <input type="text" name="search-bar" id="search-bar" class="search search-txt">
+            <button type="button" id="search-btn" name="search-btn" class="font-weight-bold text-white search search-txt search-button">Search</button>
+            <button type="button" id="reset-btn" class="search search-txt search-button">Reset</button>
+            <button type="button" id="back-btn" name="back-btn" class="font-weight-bold text-white search search-txt search-button">Back</button>
         </div>
-        <ul id="genres-list"></ul>
-    </main>  
+        <div id="genresContainer" class="">
+            <ul id="genres-list">
+            </ul>
+        </div>
+        <div id="playlistContainer" class="">
+            <div id="playlistArea" class="">
+                <ul id="playlist" class="">
+                    <li>hi</li>
+                </ul>
+            </div>
+            <div id="tracksArea" class="">
+                <ul id="tracks" class="">
+                    <li>hi</li>
+                </ul>
+            </div>
+        </div>
+    </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
 </body>
+    <script src="./script.js"></script>
 </html>

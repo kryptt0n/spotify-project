@@ -5,7 +5,7 @@ body {
     background:linear-gradient(120deg, #1db954, #191414);
 }
 .container {
-    max-width: 1200px;
+    max-width: 80rem;
     margin: 20px auto;
     padding: 20px;
     background:linear-gradient(120deg, #1db954, #191414);
@@ -54,7 +54,23 @@ li {
     display: inline-block;
     padding: 3px;
 }
-  
+#genresContainer{
+    display:none;
+}
+#playlistContainer
+{
+    display: grid;
+    grid-template-areas:
+    "playlist tracks tracks tracks";
+    background-color: #e0e0e0;
+}
+#playlistArea{
+    grid-area:playlist;
+}
+#tracksArea{
+    grid-area:tracks;
+}
+
 .right {
 transform: rotate(-45deg);
 -webkit-transform: rotate(-45deg);
