@@ -138,7 +138,9 @@ const handlePlaylistLazyLoading = async (id) =>{
 
                     playlistNames.forEach(name => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = name;
+                        listItem.innerHTML = `  <li>${name}
+                                                <ul></ul>
+                                                </li>`
                         playlistElement.appendChild(listItem);
                     });
             }
