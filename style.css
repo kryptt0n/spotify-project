@@ -24,6 +24,10 @@ ul {
     grid-template-columns: auto auto auto auto;
     gap: 10px;
 }
+#tracks{
+    gap:0px;
+    
+}
 li {
     margin-bottom: 10px;
 }

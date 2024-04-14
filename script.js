@@ -32,6 +32,7 @@ const getGenre = async () => {
     }
 };
 
+
 const getToken = async () => {
     try {
         const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -108,6 +109,43 @@ const searchGenres = async () => {
     displayGenres(searchedGenres.sort());
     }
 };
+const getTracksByName = async (keyword) => {
+    const accessToken = await getToken();
+    const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=track`, {
+        headers: {
+            Authorization: 'Bearer ' + accessToken
+        }
+    });
+    if (!response.ok) {
+        alert(`Failed to fetch tracks Error Code:${response.status}`);
+    }
+    const data = await response.json();
+    return data.tracks.items;
+}
+const searchTracks = async() =>{
+document.getElementById("tracks").innerHTML = "";
+let keyword = document.getElementById('search-bar').value.toLowerCase();
+ searchedTracks = await getTracksByName(keyword);
+    if (!searchedTracks.length > 0){
+        alert("No result found");
+    }
+    else {
+        $.each(searchedTracks, (index, track) => {
+            const listItem = document.createElement('li');
+            console.log(track);
+            listItem.innerHTML = `<li>
+            <div class="card" style="width: 12rem;">
+                <img src="${track.album.images[0].url}" class="card-img-top" alt="Soon">
+                <div class="card-body">
+                    <h5 class="card-title">${track.name}</h5>
+                    <p class="card-text">${getArtistsString(track.artists)}</p>
+                </div>
+            </div>
+            </li> `;
+            document.getElementById("tracks").appendChild(listItem);
+        })
+    }
+}
 
 
 const displayGenres = async (data) => {
@@ -135,7 +173,7 @@ const handleTracksLazyLoading = async(playlist_id) => {
         const listItem = document.createElement('li');
         console.log(track);
         listItem.innerHTML = `<li>
-        <div class="card" style="width: 10rem;">
+        <div class="card" style="width: 12rem;">
             <img src="${track.track.album.images[0].url}" class="card-img-top" alt="Soon">
             <div class="card-body">
                 <h5 class="card-title">${track.track.name}</h5>
@@ -176,7 +214,7 @@ const getTracks = async (playlist_id) => {
 
 
 const handlePlaylistLazyLoading = async (id) =>{
-    
+    $("#back-btn").css("display","block");
     $("#genresContainer").css("display","none");
     $("#playlistContainer").css("display","grid");
     const playlistContainer = document.getElementById('playlist')
@@ -202,6 +240,7 @@ const handlePlaylistLazyLoading = async (id) =>{
 
 window.onload = async () => {
     displayGenres(await getGenre());
+    $("#back-btn").css("display","none");
 };
 
 
@@ -210,9 +249,12 @@ document.addEventListener('click', function(event) {
     if (targetElement.classList.contains('genre-btn')) {
         handlePlaylistLazyLoading(targetElement.id);
     } else if (targetElement.id == 'search-btn') {
-        $("#genresContainer").css("display","block");
-        $("#playlistContainer").css("display","none");
-        searchGenres();
+        if ($("#genresContainer").css("display")=="block"){
+        searchGenres();}
+        else{
+        searchTracks();
+        }
+    
     } else if (targetElement.id === 'reset-btn') {
         reset();
     } else if (targetElement.classList.contains('playlist-btn')) {
@@ -220,5 +262,6 @@ document.addEventListener('click', function(event) {
     } else if (targetElement.id === 'back-btn') {
         $("#genresContainer").css("display","block");
         $("#playlistContainer").css("display","none");
+        $("#back-btn").css("display","none");
     }
 });
