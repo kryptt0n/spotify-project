@@ -133,10 +133,29 @@ const handleTracksLazyLoading = async(playlist_id) => {
     $.each(tracks, (index, track) => {
         const listItem = document.createElement('li');
         console.log(track);
-        listItem.innerHTML = `<li>${track.track.name}</li> `;
+        listItem.innerHTML = `<li>
+        <div class="card" style="width: 10rem;">
+            <img src="${track.track.album.images[0].url}" class="card-img-top" alt="Soon">
+            <div class="card-body">
+                <h5 class="card-title">${track.track.name}</h5>
+                <p class="card-text">${getArtistsString(track.track.artists)}</p>
+            </div>
+        </div>
+        </li> `;
         tracksContainer.appendChild(listItem);
     })
 
+}
+
+const getArtistsString = (artists) => {
+    let artistsStr = "";
+
+    $.each(artists, (index, artist) => {
+        console.log(artist);
+        artistsStr += `${artist.name}, `
+    })
+
+    return artistsStr.slice(0, artistsStr.length - 2);
 }
 
 const getTracks = async (playlist_id) => {
