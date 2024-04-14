@@ -55,11 +55,11 @@ li {
     padding: 3px;
 }
 #genresContainer{
-    display:none;
+    display:block;
 }
 #playlistContainer
 {
-    display: grid;
+    display: none;
     grid-template-areas:
     "playlist tracks tracks tracks";
     background-color: #e0e0e0;

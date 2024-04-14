@@ -115,19 +115,17 @@ const displayGenres = async (data) => {
         genres.forEach(async (genre, index) => {
             let li = document.createElement('li');
             li.innerHTML = `
-            <li class='genre-item dropdown'>
-                <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9 genre-btn" type="button" id="dropdownMenuButton${index}" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class='genre-item'>
+                <button class="btn btn-m w-100 btn-light mr-9 genre-btn" type="button" id="dropdownMenuButton${index}">
                     ${genre}
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton${index}"></ul>
             </li>`;
             document.getElementById('genres-list').appendChild(li);
         });
 };
 
 const handleTracksLazyLoading = async(playlist_id) => {
-    const playlistElement = document.getElementById(playlist_id)
-    const trackElement = playlistElement.nextElementSibling;
+    const tracksContainer = document.getElementById("tracks")
 
     playlist_id = playlist_id.split('playlistDropdown')[1]
     const tracks = await getTracks(playlist_id);
@@ -135,8 +133,8 @@ const handleTracksLazyLoading = async(playlist_id) => {
     $.each(tracks, (index, track) => {
         const listItem = document.createElement('li');
         console.log(track);
-        listItem.innerHTML = `<li> ${track.track.name} `;
-        trackElement.appendChild(listItem);
+        listItem.innerHTML = `<li>${track.track.name}</li> `;
+        tracksContainer.appendChild(listItem);
     })
 
 }
@@ -158,26 +156,26 @@ const getTracks = async (playlist_id) => {
 
 
 const handlePlaylistLazyLoading = async (id) =>{
-            const genreElement = document.getElementById(id)
-            const genreName = genreElement.textContent.toLowerCase();
-            const playlistElement = genreElement.nextElementSibling;
+    
+    $("#genresContainer").css("display","none");
+    $("#playlistContainer").css("display","grid");
+    const playlistContainer = document.getElementById('playlist')
+    const genreElement = document.getElementById(id);
+    const genreName = genreElement.textContent.toLowerCase();
 
-            if (!playlistElement.hasChildNodes()) {
 
-                    const playlists = await getPlaylist(genreName);
-                    const playlistNames = await getPlaylistName(playlists);
+    const playlists = await getPlaylist(genreName);
 
-                    $.each(playlists, (index, playlist) => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `  <li class='genre-item dropend'>
-                                                    <button class="btn btn-m w-100 btn-light dropdown-toggle mr-9 playlist-btn" type="button" id="playlistDropdown${playlist.id}" data-bs-toggle="dropdown" aria-expanded="true">
-                                                        ${playlist.name}
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="playlistDropdown${playlist.id}"></ul>
-                                                </li>`
-                        playlistElement.appendChild(listItem);
-                    })
-            }
+    $.each(playlists, (index, playlist) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<li class='playlist-item'>
+                                    <button class="btn btn-m w-100 btn-light mr-9 playlist-btn" type="button" id="playlistDropdown${playlist.id}">
+                                        ${playlist.name}
+                                    </button>
+                                </li>`;
+        playlistContainer.appendChild(listItem);
+    })
+    
 };
 
 window.onload = async () => {
@@ -195,5 +193,8 @@ document.addEventListener('click', function(event) {
         reset();
     } else if (targetElement.classList.contains('playlist-btn')) {
         handleTracksLazyLoading(targetElement.id);
+    } else if (targetElement.id === 'back-btn') {
+        $("#genresContainer").css("display","block");
+        $("#playlistContainer").css("display","none");
     }
 });
