@@ -85,8 +85,12 @@ const getSavedData = (key) => {
 };
 
 const reset = async () => {
+    if($("#genresContainer").css("display")=="none"){
+    document.getElementById("tracks").innerHTML = "";
+    }
+    else {
     document.getElementById('genres-list').innerHTML = "";
-    displayGenres(await getGenre());
+    displayGenres(await getGenre());}
 };
 
 const searchGenres = async () => {
