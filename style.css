@@ -17,6 +17,8 @@ h1 {
 }
 ul {
     list-style-type: none;
+}
+.columnlist{
     padding: 0;
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -62,10 +64,16 @@ li {
     display: none;
     grid-template-areas:
     "playlist tracks tracks tracks";
-    background-color: #e0e0e0;
+    background-color: seagreen;
+    border-radius: 15px;
 }
 #playlistArea{
     grid-area:playlist;
+    margin-top: 15px;
+    margin-right: 15px;
+}
+#playlist{
+    width: 20rem;
 }
 #tracksArea{
     grid-area:tracks;

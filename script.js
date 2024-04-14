@@ -126,6 +126,7 @@ const displayGenres = async (data) => {
 
 const handleTracksLazyLoading = async(playlist_id) => {
     const tracksContainer = document.getElementById("tracks")
+    tracksContainer.innerHTML="";
 
     playlist_id = playlist_id.split('playlistDropdown')[1]
     const tracks = await getTracks(playlist_id);
@@ -163,6 +164,8 @@ const handlePlaylistLazyLoading = async (id) =>{
     const genreElement = document.getElementById(id);
     const genreName = genreElement.textContent.toLowerCase();
 
+    playlistContainer.innerHTML ="";
+
 
     const playlists = await getPlaylist(genreName);
 
@@ -188,6 +191,8 @@ document.addEventListener('click', function(event) {
     if (targetElement.classList.contains('genre-btn')) {
         handlePlaylistLazyLoading(targetElement.id);
     } else if (targetElement.id == 'search-btn') {
+        $("#genresContainer").css("display","block");
+        $("#playlistContainer").css("display","none");
         searchGenres();
     } else if (targetElement.id === 'reset-btn') {
         reset();
